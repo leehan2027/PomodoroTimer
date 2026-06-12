@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍅 番茄时钟 - Pomodoro Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="particles-container"></div>
+
+        <header class="header">
+            <h1 class="title">
+                <span class="tomato-icon">🍅</span>
+                番茄时钟
+            </h1>
+            <p class="subtitle">专注每一刻，收获满满</p>
+        </header>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="work" data-time="25">
+                <span class="mode-icon">💼</span>
+                <span class="mode-label">工作</span>
+                <span class="mode-time">25分钟</span>
+            </button>
+            <button class="mode-btn" data-mode="shortBreak" data-time="5">
+                <span class="mode-icon">☕</span>
+                <span class="mode-label">短休息</span>
+                <span class="mode-time">5分钟</span>
+            </button>
+            <button class="mode-btn" data-mode="longBreak" data-time="15">
+                <span class="mode-icon">🌴</span>
+                <span class="mode-label">长休息</span>
+                <span class="mode-time">15分钟</span>
+            </button>
+        </div>
+
+        <div class="timer-wrapper">
+            <div class="timer-ring-container">
+                <svg class="timer-ring" viewBox="0 0 300 300">
+                    <circle class="timer-ring-bg" cx="150" cy="150" r="140" />
+                    <circle class="timer-ring-progress" cx="150" cy="150" r="140" />
+                </svg>
+                <div class="timer-display">
+                    <div class="timer-time" id="timer-display">25:00</div>
+                    <div class="timer-label" id="timer-label">准备开始</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar"></div>
+                </div>
+            </div>
+
+        <div class="tomato-character" id="tomato-character">
+            <div class="tomato-body">
+                <div class="tomato-face">
+                    <div class="tomato-eye left"></div>
+                    <div class="tomato-eye right"></div>
+                    <div class="tomato-mouth"></div>
+                </div>
+                <div class="tomato-leaf"></div>
+                <div class="sweat-drop left"></div>
+                <div class="sweat-drop right"></div>
+            </div>
+        </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn btn-start" id="btn-start">
+                <span class="btn-icon">▶</span>
+                <span class="btn-text">开始</span>
+            </button>
+            <button class="control-btn btn-pause" id="btn-pause" style="display: none;">
+                <span class="btn-icon">⏸</span>
+                <span class="btn-text">暂停</span>
+            </button>
+            <button class="control-btn btn-reset" id="btn-reset">
+                <span class="btn-icon">↺</span>
+                <span class="btn-text">重置</span>
+            </button>
+            <button class="control-btn btn-skip" id="btn-skip">
+                <span class="btn-icon">⏭</span>
+                <span class="btn-text">跳过</span>
+            </button>
+        </div>
+
+        <div class="session-info">
+            <div class="session-counter">
+                <span class="session-label">今日完成</span>
+                <span class="session-count" id="session-count">0</span>
+                <span class="session-unit">个番茄</span>
+            </div>
+            <div class="session-dots" id="session-dots"></div>
+        </div>
+
+        <div class="settings-toggle">
+            <button class="settings-btn" id="settings-btn">
+                <span>⚙️</span> 设置
+            </button>
+        </div>
+
+        <div class="settings-panel" id="settings-panel" style="display: none;">
+            <h3>⚙️ 自定义时间</h3>
+            <div class="setting-item">
+                <label>工作时长（分钟）</label>
+                <div class="setting-control">
+                    <button class="setting-btn" data-target="work" data-action="decrease">−</button>
+                    <span class="setting-value" id="setting-work">25</span>
+                    <button class="setting-btn" data-target="work" data-action="increase">+</button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label>短休息（分钟）</label>
+                <div class="setting-control">
+                    <button class="setting-btn" data-target="shortBreak" data-action="decrease">−</button>
+                    <span class="setting-value" id="setting-shortBreak">5</span>
+                    <button class="setting-btn" data-target="shortBreak" data-action="increase">+</button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label>长休息（分钟）</label>
+                <div class="setting-control">
+                    <button class="setting-btn" data-target="longBreak" data-action="decrease">−</button>
+                    <span class="setting-value" id="setting-longBreak">15</span>
+                    <button class="setting-btn" data-target="longBreak" data-action="increase">+</button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label>长休息间隔（个番茄）</label>
+                <div class="setting-control">
+                    <button class="setting-btn" data-target="longBreakInterval" data-action="decrease">−</button>
+                    <span class="setting-value" id="setting-longBreakInterval">4</span>
+                    <button class="setting-btn" data-target="longBreakInterval" data-action="increase">+</button>
+                </div>
+            </div>
+            <button class="settings-close" id="settings-close">完成</button>
+        </div>
+    </div>
+
+    <div class="celebration-overlay" id="celebration-overlay" style="display: none;">
+        <div class="celebration-content">
+            <div class="celebration-emoji">🎉</div>
+            <h2 class="celebration-title" id="celebration-title">太棒了！</h2>
+            <p class="celebration-message" id="celebration-message">你完成了一个番茄钟！</p>
+            <button class="celebration-btn" id="celebration-btn">继续</button>
+        </div>
+        <div class="celebration-hearts" id="celebration-hearts"></div>
+    </div>
+    <div id="floating-emoji-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
